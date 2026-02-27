@@ -1,4 +1,4 @@
-package org.labs.lab1.add_task;
+package ru.mephi.lab1.add_task;
 
 /**
  * Represents a list data structure for managing strings.

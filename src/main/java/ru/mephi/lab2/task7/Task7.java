@@ -1,4 +1,4 @@
-package ru.mephi.lab2.Task7;
+package ru.mephi.lab2.task7;
 
 /**
  * Represents a 2D point with mutators using Cartesian coordinates (x, y).

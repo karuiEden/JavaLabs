@@ -17,7 +17,7 @@ public class Task1 {
         
         System.out.println("Sun Mon Tue Wed Thu Fri Sat");
         DayOfWeek weekday = date.getDayOfWeek();
-        int value = weekday.getValue() % 7; // 1 = Monday, ... 7 = Sunday
+        int value = weekday.getValue() % 7;
         for (int i = 0; i < value; i++)
             System.out.print("    ");
         while (date.getMonthValue() == month) {

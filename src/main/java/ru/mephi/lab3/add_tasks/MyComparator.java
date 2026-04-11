@@ -1,43 +1,39 @@
 package ru.mephi.lab3.add_tasks;
 
+import java.util.Comparator;
 import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 
 @FunctionalInterface
 public interface MyComparator<T> {
-  int compare(T o1, T o2);
-
-  default MyComparator<T> reversed() {
-    return (o1, o2) -> compare(o2, o1);
-  }
-
   static <T, U extends Comparable<? super U>> MyComparator<T> comparing(
       Function<? super T, ? extends U> keyExtractor) {
     return (o1, o2) -> keyExtractor.apply(o1).compareTo(keyExtractor.apply(o2));
   }
 
   static <T, U> MyComparator<T> comparing(
-      java.util.function.Function<? super T, ? extends U> keyExtractor,
-      java.util.Comparator<? super U> keyComparator) {
+     Function<? super T, ? extends U> keyExtractor,
+     Comparator<? super U> keyComparator) {
     return (o1, o2) -> keyComparator.compare(keyExtractor.apply(o1), keyExtractor.apply(o2));
   }
 
   static <T> MyComparator<T> comparingDouble(
-      java.util.function.ToDoubleFunction<? super T> keyExtractor) {
+      ToDoubleFunction<? super T> keyExtractor) {
     return (o1, o2) ->
         Double.compare(keyExtractor.applyAsDouble(o1), keyExtractor.applyAsDouble(o2));
   }
 
   static <T> MyComparator<T> comparingInt(
-      java.util.function.ToIntFunction<? super T> keyExtractor) {
+      ToIntFunction<? super T> keyExtractor) {
     return (o1, o2) -> Integer.compare(keyExtractor.applyAsInt(o1), keyExtractor.applyAsInt(o2));
   }
 
   static <T> MyComparator<T> comparingLong(
-      java.util.function.ToLongFunction<? super T> keyExtractor) {
+      ToLongFunction<? super T> keyExtractor) {
     return (o1, o2) -> Long.compare(keyExtractor.applyAsLong(o1), keyExtractor.applyAsLong(o2));
   }
-
-  boolean equals(Object obj);
 
   static <T extends Comparable<? super T>> MyComparator<T> naturalOrder() {
     return (o1, o2) -> o1.compareTo(o2);
@@ -63,6 +59,14 @@ public interface MyComparator<T> {
     return MyComparator.<T>naturalOrder().reversed();
   }
 
+  int compare(T o1, T o2);
+
+  default MyComparator<T> reversed() {
+    return (o1, o2) -> compare(o2, o1);
+  }
+
+  boolean equals(Object obj);
+
   default MyComparator<T> thenComparing(MyComparator<? super T> other) {
     return (o1, o2) -> {
       int result = compare(o1, o2);
@@ -71,7 +75,7 @@ public interface MyComparator<T> {
   }
 
   default <U extends Comparable<? super U>> MyComparator<T> thenComparing(
-      java.util.function.Function<? super T, ? extends U> keyExtractor) {
+     Function<? super T, ? extends U> keyExtractor) {
     return thenComparing(comparing(keyExtractor));
   }
 
@@ -85,17 +89,17 @@ public interface MyComparator<T> {
   }
 
   default MyComparator<T> thenComparingDouble(
-      java.util.function.ToDoubleFunction<? super T> keyExtractor) {
+     ToDoubleFunction<? super T> keyExtractor) {
     return thenComparing(comparingDouble(keyExtractor));
   }
 
   default MyComparator<T> thenComparingInt(
-      java.util.function.ToIntFunction<? super T> keyExtractor) {
+      ToIntFunction<? super T> keyExtractor) {
     return thenComparing(comparingInt(keyExtractor));
   }
 
   default MyComparator<T> thenComparingLong(
-      java.util.function.ToLongFunction<? super T> keyExtractor) {
+      ToLongFunction<? super T> keyExtractor) {
     return thenComparing(comparingLong(keyExtractor));
   }
 }

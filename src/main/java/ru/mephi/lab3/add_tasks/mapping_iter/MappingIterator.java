@@ -10,45 +10,60 @@ public interface MappingIterator<FROM, TO> extends Iterator<TO> {
 
   static <T> MappingIterator<T, T> from(Iterator<T> iterator) {
     Objects.requireNonNull(iterator, "iterator");
-    return new Impl<>(iterator, Function.identity());
+    return new MappingIterator<>() {
+      @Override
+      public boolean hasNext() {
+        return iterator.hasNext();
+      }
+
+      @Override
+      public T next() {
+        return iterator.next();
+      }
+
+      @Override
+      public void remove() {
+        iterator.remove();
+      }
+
+      @Override
+      public <NEW_TO> MappingIterator<T, NEW_TO> mapping(
+              Function<? super T, ? extends NEW_TO> nextMappingFunction) {
+        Objects.requireNonNull(nextMappingFunction, "mappingFunction must not be null");
+        return MappingIterator.mapping(
+                iterator, nextMappingFunction.compose(Function.identity()));
+      }
+    };
   }
 
   static <T, U> MappingIterator<T, U> mapping(
       Iterator<T> iterator, Function<? super T, ? extends U> mappingFunction) {
     Objects.requireNonNull(iterator, "iterator");
     Objects.requireNonNull(mappingFunction, "mappingFunction");
-    return new Impl<>(iterator, mappingFunction);
+    return new MappingIterator<T, U>() {
+      @Override
+      public boolean hasNext() {
+        return iterator.hasNext();
+      }
+
+      @Override
+      public U next() {
+        return mappingFunction.apply(iterator.next());
+      }
+
+      @Override
+      public void remove() {
+        iterator.remove();
+      }
+
+      @Override
+      public <NEW_TO> MappingIterator<T, NEW_TO> mapping(
+              Function<? super U, ? extends NEW_TO> nextMappingFunction) {
+        Objects.requireNonNull(nextMappingFunction, "mappingFunction must not be null");
+        return MappingIterator.mapping(
+                iterator, nextMappingFunction.compose(mappingFunction));
+      }
+    };
   }
 
-  final class Impl<FROM, TO> implements MappingIterator<FROM, TO> {
-    private final Iterator<FROM> iterator;
-    private final Function<? super FROM, ? extends TO> mappingFunction;
-
-    Impl(Iterator<FROM> iterator, Function<? super FROM, ? extends TO> mappingFunction) {
-      this.iterator = Objects.requireNonNull(iterator, "iterator");
-      this.mappingFunction = Objects.requireNonNull(mappingFunction, "mappingFunction");
-    }
-
-    @Override
-    public boolean hasNext() {
-      return iterator.hasNext();
-    }
-
-    @Override
-    public TO next() {
-      return mappingFunction.apply(iterator.next());
-    }
-
-    @Override
-    public void remove() {
-      iterator.remove();
-    }
-
-    @Override
-    public <NEW_TO> MappingIterator<FROM, NEW_TO> mapping(
-        Function<? super TO, ? extends NEW_TO> mappingFunction) {
-      Objects.requireNonNull(mappingFunction, "mappingFunction must not be null");
-      return new Impl<>(iterator, mappingFunction.compose(this.mappingFunction));
-    }
-  }
 }

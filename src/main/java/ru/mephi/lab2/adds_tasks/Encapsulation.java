@@ -1,49 +1,84 @@
 package ru.mephi.lab2.adds_tasks;
 
 /**
- * Инкапсуляция — это принцип ООП, по которому объект объединяет состояние и операции над ним в единое целое и скрывает детали своей внутренней реализации,
- * предоставляя наружу минимальный, стабильный и безопасный интерфейс.
+ * Инкапсуляция — принцип ООП, которые заключается в объединении данных и методов работы с ними в
+ * одном объекте и ограничении прямого доступа к внутреннему состоянию.
  */
-
-class AccountBankWithout{
-    public double balance;
+class Fraction {
+  int numerator;
+  int denominator;
 }
 
-class AccountBankWith{
-    private double balance;
+class FractionUtils {
 
-    public double getBalance() {
-        return balance;
+  static int gcd(int a, int b) {
+    while (b != 0) {
+      int t = a % b;
+      a = b;
+      b = t;
     }
+    return Math.abs(a);
+  }
 
-    public void deposit(double money) {
-        if (money < 0) throw new IllegalArgumentException("Quantity of money must be positive.");
-        this.balance += money;
-    }
+  static void normalize(Fraction f) {
+    int g = gcd(f.numerator, f.denominator);
+    f.numerator /= g;
+    f.denominator /= g;
 
-    public void withdraw(double money){
-        if (money < 0) throw new IllegalArgumentException("Quantity of money must be positive.");
-        if (money > balance) throw new IllegalArgumentException("Quantity of money must be less, than the balance");
-        balance -= money;
+    if (f.denominator < 0) {
+      f.numerator = -f.numerator;
+      f.denominator = -f.denominator;
     }
+  }
+
+  static Fraction add(Fraction a, Fraction b) {
+    Fraction result = new Fraction();
+    result.numerator = a.numerator * b.denominator + b.numerator * a.denominator;
+    result.denominator = a.denominator * b.denominator;
+    normalize(result);
+    return result;
+  }
 }
 
-public class Encapsulation {
-    static void main() {
-        AccountBankWithout acc = new AccountBankWithout();
-        acc.balance = -10000; // Нарушение логики.
+class FractionWithEncapsulation {
+  private final int numerator;
+  private final int denominator;
 
-        AccountBankWith safe_acc = new AccountBankWith();
-        try{
-            safe_acc.deposit(-1000);
-        } catch (Exception e){
-            IO.println(e.toString());
-        }
-        safe_acc.deposit(1000);
-        try {
-            safe_acc.withdraw(10000);
-        } catch (Exception e) {
-            IO.println(e.toString());
-        }
+  public FractionWithEncapsulation(int numerator, int denominator) {
+    if (denominator == 0) {
+      throw new IllegalArgumentException("Denominator can't be zero");
     }
+
+    int g = gcd(numerator, denominator);
+    numerator /= g;
+    denominator /= g;
+
+    if (denominator < 0) {
+      numerator = -numerator;
+      denominator = -denominator;
+    }
+
+    this.numerator = numerator;
+    this.denominator = denominator;
+  }
+
+  public FractionWithEncapsulation add(FractionWithEncapsulation other) {
+    return new FractionWithEncapsulation(
+        this.numerator * other.denominator + other.numerator * this.denominator,
+        this.denominator * other.denominator);
+  }
+
+  @Override
+  public String toString() {
+    return numerator + "/" + denominator;
+  }
+
+  private static int gcd(int a, int b) {
+    while (b != 0) {
+      int t = a % b;
+      a = b;
+      b = t;
+    }
+    return Math.abs(a);
+  }
 }

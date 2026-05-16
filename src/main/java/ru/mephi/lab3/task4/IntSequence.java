@@ -1,20 +1,21 @@
 package ru.mephi.lab3.task4;
 
-public interface IntSequence  {
-    boolean hasNext();
-    int next();
+public interface IntSequence {
+  boolean hasNext();
 
-    static IntSequence of(int... values){
-        return new IntSequence (){
-            private int i = 0;
+  int next();
 
-            public boolean hasNext() {
-                    return i < values.length;
-            }
+  static IntSequence of(int... values) {
+    return new IntSequence() {
+      private int i = 0;
 
-            public int next() {
-                    return values[i++];
-            }
-        };
-    }
+      public boolean hasNext() {
+        return i < values.length;
+      }
+
+      public int next() {
+        return values[i++];
+      }
+    };
+  }
 }

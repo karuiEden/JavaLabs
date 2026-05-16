@@ -1,0 +1,8 @@
+| Метод                | Обычный класс (`String`)              | Массив (`int[]`) | Generic (`ArrayList`)                 | Inner class (`Map.Entry`)                            | Примитив (`int`) |
+|----------------------|---------------------------------------|------------------|---------------------------------------|------------------------------------------------------|------------------|
+| `getName()`          | `java.lang.String`                    | `[I`             | `java.util.ArrayList`                 | `java.util.Map$Entry`                                | `int`            |
+| `getSimpleName()`    | `String`                              | `int[]`          | `ArrayList`                           | `Entry`                                              | `int`            |
+| `getCanonicalName()` | `java.lang.String`                    | `int[]`          | `java.util.ArrayList`                 | `java.util.Map.Entry`                                | `int`            |
+| `getTypeName()`      | `java.lang.String`                    | `int[]`          | `java.util.ArrayList`                 | `java.util.Map$Entry`                                | `int`            |
+| `toGenericString()`  | `public final class java.lang.String` | `int[]`          | `public class java.util.ArrayList<E>` | `public abstract interface java.util.Map.Entry<K,V>` | `int`            |
+| `toString()`         | `class java.lang.String`              | `class [I`       | `class java.util.ArrayList`           | `interface java.util.Map$Entry`                      | `int`            |

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class LaArrayListTest {
 
     @Test
-    void addAndGetAndSize() {
+    void add_and_get_and_size() {
         LaArrayList list = new LaArrayList(2);
         list.add("a");
         list.add("b");
@@ -18,7 +18,7 @@ class LaArrayListTest {
     }
 
     @Test
-    void addAtIndexShifts() {
+    void add_at_index_shifts() {
         LaArrayList list = new LaArrayList(3);
         list.add("a");
         list.add("c");
@@ -32,7 +32,7 @@ class LaArrayListTest {
     }
 
     @Test
-    void addAtEndAllowed() {
+    void add_at_end_allowed() {
         LaArrayList list = new LaArrayList(2);
         list.add("a");
         list.add(1, "b");
@@ -42,7 +42,7 @@ class LaArrayListTest {
     }
 
     @Test
-    void setReplaces() {
+    void set_replaces() {
         LaArrayList list = new LaArrayList(1);
         list.add("a");
         list.set(0, "b");
@@ -52,7 +52,7 @@ class LaArrayListTest {
     }
 
     @Test
-    void removeByIndexShiftsAndShrinks() {
+    void remove_by_index_shifts_and_shrinks() {
         LaArrayList list = new LaArrayList(3);
         list.add("a");
         list.add("b");
@@ -69,7 +69,7 @@ class LaArrayListTest {
     }
 
     @Test
-    void removeByValueFirstOccurrence() {
+    void remove_by_value_first_occurrence() {
         LaArrayList list = new LaArrayList(3);
         list.add("a");
         list.add("b");
@@ -82,7 +82,7 @@ class LaArrayListTest {
     }
 
     @Test
-    void removeByValueNotFound() {
+    void remove_by_value_not_found() {
         LaArrayList list = new LaArrayList(1);
         list.add("a");
 
@@ -92,7 +92,7 @@ class LaArrayListTest {
     }
 
     @Test
-    void removeHandlesNulls() {
+    void remove_handles_nulls() {
         LaArrayList list = new LaArrayList(3);
         list.add(null);
         list.add("a");
@@ -105,7 +105,7 @@ class LaArrayListTest {
     }
 
     @Test
-    void boundsChecks() {
+    void bounds_checks() {
         LaArrayList list = new LaArrayList(2);
         list.add("a");
 
@@ -118,7 +118,7 @@ class LaArrayListTest {
     }
 
     @Test
-    void growsBeyondInitialCapacity() {
+    void grows_beyond_initial_capacity() {
         LaArrayList list = new LaArrayList(1);
         list.add("a");
         list.add("b");
@@ -128,7 +128,7 @@ class LaArrayListTest {
     }
 
     @Test
-    void negativeCapacityThrows() {
+    void negative_capacity_throws() {
         assertThrows(IllegalArgumentException.class, () -> new LaArrayList(-1));
     }
 }

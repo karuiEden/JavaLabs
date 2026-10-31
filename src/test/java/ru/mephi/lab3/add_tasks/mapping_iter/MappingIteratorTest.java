@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MappingIteratorTest {
 
     @Test
-    void identity_fromReturnsSameElements() {
+    void identity_from_returns_same_elements() {
         List<Integer> src = Arrays.asList(1, 2, 3);
         MappingIterator<Integer, Integer> it = MappingIterator.from(src.iterator());
 
@@ -25,7 +25,7 @@ class MappingIteratorTest {
     }
 
     @Test
-    void mappingChainsAreComposedInOrder() {
+    void mapping_chains_are_composed_in_order() {
         MappingIterator<Integer, String> it = MappingIterator
                 .from(Arrays.asList(1, 2, 3).iterator())
                 .mapping(x -> x * 2)            // 2, 4, 6
@@ -41,18 +41,18 @@ class MappingIteratorTest {
     }
 
     @Test
-    void mappingRejectsNullFunction() {
+    void mapping_rejects_null_function() {
         MappingIterator<Integer, Integer> it = MappingIterator.from(List.of(1).iterator());
         assertThrows(NullPointerException.class, () -> it.mapping(null));
     }
 
     @Test
-    void fromRejectsNullIterator() {
+    void from_rejects_null_iterator() {
         assertThrows(NullPointerException.class, () -> MappingIterator.from((Iterator<Integer>) null));
     }
 
     @Test
-    void removeDelegatesToUnderlyingIterator() {
+    void remove_delegates_to_underlying_iterator() {
         List<Integer> src = new ArrayList<>(Arrays.asList(10, 20, 30));
         MappingIterator<Integer, Integer> it = MappingIterator.from(src.iterator());
 
